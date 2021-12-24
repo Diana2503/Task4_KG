@@ -3,7 +3,7 @@ package ru.vsu.cs;
 import javax.swing.*;
 
 import ru.vsu.cs.functions.*;
-import ru.vsu.cs.models.HelixUpgradedFunc;
+import ru.vsu.cs.models.HelixFunc;
 import ru.vsu.cs.draw.DrawPanel;
 
 import java.awt.*;
@@ -31,52 +31,66 @@ public class MainGUI extends JFrame {
         stepSpinner.setModel(new SpinnerNumberModel(0.1f, 0.01f, 2, 0.01f));
         countOfPointsSpinner.setModel(new SpinnerNumberModel(6, 6, 180, 6));
         thicknessSpinner.setModel(new SpinnerNumberModel(0.5f, 0.01f, 1, 0.01f));
-        turnsSpinner.setModel(new SpinnerNumberModel(3, 1, 10, 1));
+        turnsSpinner.setModel(new SpinnerNumberModel(3, 1, 50, 1));
 
 
-        stepFunc.addItem(IFunctionENUM.DEFAULT);
-        stepFunc.addItem(IFunctionENUM.SINUS);
-        stepFunc.addItem(IFunctionENUM.COSINUS);
-        try{
-        createHelixButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                IFunction fStep = null;
+        stepFunc.addItem(AnyIFunction.DEFAULT);
+        stepFunc.addItem(AnyIFunction.SINUS);
+        stepFunc.addItem(AnyIFunction.COSINUS);
+        stepFunc.addItem(AnyIFunction.EXPONENT);
+        stepFunc.addItem(AnyIFunction.SQRT);
+        stepFunc.addItem(AnyIFunction.ATAN);
+        try {
+            createHelixButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    IFunction fStep = null;
 
-                switch ((IFunctionENUM) stepFunc.getSelectedItem()) {
-                    case SINUS: {
-                        fStep = new SinusFunction();
-                        break;
+                    switch ((AnyIFunction) stepFunc.getSelectedItem()) {
+                        case SINUS: {
+                            fStep = new SinusFunction();
+                            break;
+                        }
+                        case COSINUS: {
+                            fStep = new CosinusFunction();
+                            break;
+                        }
+                        case EXPONENT: {
+                            fStep = new ExpFunction();
+                            break;
+                        }
+                        case SQRT: {
+                            fStep = new SqrtFunction();
+                            break;
+                        }
+                        case ATAN: {
+                            fStep = new AtanFunction();
+                            break;
+                        }
+                        case DEFAULT: {
+                            fStep = new DefaultFunction();
+                            break;
+                        }
                     }
-                    case COSINUS: {
-                        fStep = new CosinusFunction();
-                        break;
-                    }
-                    case DEFAULT: {
-                        fStep = new DefaultFunction();
-                        break;
-                    }
+
+                    int countOfTurns = (int) turnsSpinner.getValue();
+                    int countOfPointsPerTurn = (int) countOfPointsSpinner.getValue();
+                    float step = (float) (double) stepSpinner.getValue();
+                    float thickness = (float) (double) thicknessSpinner.getValue();
+                    int countOfPointsPerTick = (int) countOfPointsSpinner.getValue();
+
+                    drawPanel.setHelix(new HelixFunc(countOfTurns, countOfPointsPerTurn,
+                            step, thickness, countOfPointsPerTick, fStep));
+                    drawPanel.repaint();
+
                 }
-
-                int countOfTurns = (int) turnsSpinner.getValue();
-                int countOfPointsPerTurn = (int) countOfPointsSpinner.getValue();
-                float step = (float) (double) stepSpinner.getValue();
-                float thickness = (float) (double) thicknessSpinner.getValue();
-                int countOfPointsPerTick = (int) countOfPointsSpinner.getValue();
-
-                drawPanel.setHelix(new HelixUpgradedFunc(countOfTurns, countOfPointsPerTurn,
-                        step, thickness, countOfPointsPerTick, fStep));
-                drawPanel.repaint();
-
-            }
-        });
-    } catch (Exception e){
+            });
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void createUIComponents() {
-       // secondPanel = new JPanel();
         drawPanel = new DrawPanel();
     }
 

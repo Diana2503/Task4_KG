@@ -25,9 +25,9 @@ public class DrawPanel extends JPanel
     private ScreenConverter sc;
     private Camera cam;
     private CameraController camController;
-    private HelixUpgradedFunc helix;
+    private HelixFunc helix;
 
-    public void setHelix(HelixUpgradedFunc helix) {
+    public void setHelix(HelixFunc helix) {
         scene.getModelsList().clear();
         scene.getModelsList().add(helix);
     }
@@ -40,7 +40,7 @@ public class DrawPanel extends JPanel
         scene = new Scene(Color.WHITE.getRGB());
         scene.showAxes();
 
-        helix = new HelixUpgradedFunc(3,6,0.1f, 0.5f, 6, new DefaultFunction());
+        helix = new HelixFunc(3,6,0.1f, 0.5f, 6, new DefaultFunction());
 
 
         scene.getModelsList().add(helix);

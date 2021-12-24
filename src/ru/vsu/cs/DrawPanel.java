@@ -6,14 +6,10 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-import ru.vsu.cs.functions.CosinusFunction;
 import ru.vsu.cs.functions.DefaultFunction;
-import ru.vsu.cs.functions.SinusFunction;
 import ru.vsu.cs.models.*;
-import ru.vsu.cs.CameraController;
 import ru.vsu.cs.draw.IDrawer;
 import ru.vsu.cs.draw.SimpleEdgeDrawer;
-import ru.vsu.cs.math.Vector3;
 import ru.vsu.cs.screen.ScreenConverter;
 import ru.vsu.cs.third.Camera;
 import ru.vsu.cs.third.Scene;
@@ -28,9 +24,9 @@ public class DrawPanel extends JPanel
     private ScreenConverter sc;
     private Camera cam;
     private CameraController camController;
-    private HelixUpgradedFunc helix;
+    private HelixFunc helix;
 
-    public void setHelix(HelixUpgradedFunc helix) {
+    public void setHelix(HelixFunc helix) {
         scene.getModelsList().clear();
         scene.getModelsList().add(helix);
     }
@@ -40,10 +36,10 @@ public class DrawPanel extends JPanel
         sc = new ScreenConverter(-1, 1, 2, 2, 1, 1);
         cam = new Camera();
         camController = new CameraController(cam, sc);
-        scene = new Scene(Color.WHITE.getRGB());
+        scene = new Scene(new Color(0xF3E0AD).getRGB());
         scene.showAxes();
 
-        helix = new HelixUpgradedFunc(3,6,0.1f, 0.5f, 6, new DefaultFunction());
+        helix = new HelixFunc(3,6,0.1f, 0.5f, 6, new DefaultFunction());
 
         scene.getModelsList().add(helix);
 
